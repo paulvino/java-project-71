@@ -9,10 +9,25 @@ repositories {
     mavenCentral()
 }
 
+compileJava {
+    options.release = 20
+}
+
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    implementation 'info.picocli:picocli:4.7.4'
+
+    implementation (
+            'info.picocli:picocli:4.7.4',
+            'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    )
+
+    testImplementation (
+            'org.junit.jupiter:junit-jupiter'
+    )
+}
+
+test {
+    useJUnitPlatform()
 }
 
 test {
@@ -21,10 +36,6 @@ test {
 
 application {
     mainClass = 'hexlet.code.App'
-}
-
-compileJava {
-    options.release = 20
 }
 
 run {

@@ -5,10 +5,10 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-import java.io.File;
-import java.math.BigInteger;
-import java.nio.file.Files;
-import java.security.MessageDigest;
+//import java.io.File;
+//import java.math.BigInteger;
+//import java.nio.file.Files;
+//import java.security.MessageDigest;
 import java.util.concurrent.Callable;
 
 @Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 0.1",
@@ -22,7 +22,8 @@ class App implements Callable<Integer> {
     @Parameters(index = "1", paramLabel = "filepath2", description = "path to the second file")
     private String filePath2;
 
-    @Option(names = {"-f", "--format"}, paramLabel = "format", defaultValue = "stylish", description = "output format [default: stylish]")
+    @Option(names = {"-f", "--format"}, paramLabel = "format", defaultValue = "stylish",
+            description = "output format [default: stylish]")
     private String format;
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "Show this help message and exit.")
@@ -33,6 +34,8 @@ class App implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
+        String diff = Differ.generate(filePath1, filePath2);
+        System.out.println(diff);
         return SUCCESS_EXIT_CODE;
     }
 
