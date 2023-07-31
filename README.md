@@ -11,3 +11,7 @@
 ## First Gendiff demo:
 
 [![asciicast](https://asciinema.org/a/44DFAGo9DtrMM0SGEdaCkHuAj.svg)](https://asciinema.org/a/44DFAGo9DtrMM0SGEdaCkHuAj)
+
+## Second Gendiff demo:
+
+[![asciicast](https://asciinema.org/a/VTCoVmJpkr3uK1LtpPh09oLFV.svg)](https://asciinema.org/a/VTCoVmJpkr3uK1LtpPh09oLFV)
