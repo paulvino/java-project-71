@@ -19,7 +19,7 @@ class App implements Callable<Integer> {
     private String filePath2;
 
     @Option(names = {"-f", "--format"}, paramLabel = "format", defaultValue = "stylish",
-            description = "output format [default: stylish]")
+            description = "output format [default: ${DEFAULT-VALUE}]")
     private String format;
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "Show this help message and exit.")

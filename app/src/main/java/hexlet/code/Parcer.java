@@ -11,23 +11,23 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 public class Parcer {
-    public static Map<String, Object> parce(String filePath) throws IOException {
-        if (filePath.endsWith(".json")) {
-            return getDataJson(filePath);
-        } else if (filePath.endsWith(".yml") || filePath.endsWith(".yaml")) {
-            return getDataYaml(filePath);
-        } else {
-            throw new IOException("Unknown file format.");
+    public static Map<String, Object> parce(String filePath, String fileFormat) throws IOException {
+        switch (fileFormat) {
+            case "json":
+                return getDataJson(filePath);
+            case "yml", "yaml":
+                return getDataYaml(filePath);
+            default:
+                throw new IOException("Unknown file extension! -> " + fileFormat);
         }
     }
 
-    // returns Path to files (type Path)
     public static Path getAbsolutePath(String filePath) {
         Path pathToFile = Paths.get(filePath);
+
         return pathToFile.toAbsolutePath().normalize();
     }
 
-    // returns Map from file-content JSON file using ObjectMapper
     public static Map<String, Object> getDataJson(String filePath) throws IOException {
         String fileContent = parceFile(filePath);
         ObjectMapper om = new ObjectMapper();
@@ -36,7 +36,6 @@ public class Parcer {
         return fileContentMap;
     }
 
-    // returns Map from file-content YAML file using YAMLMapper
     public static Map<String, Object> getDataYaml(String filePath) throws IOException {
         String fileContent = parceFile(filePath);
         ObjectMapper om = new YAMLMapper();
@@ -45,9 +44,9 @@ public class Parcer {
         return fileContentMap;
     }
 
-    // returns file content
     public static String parceFile(String filePath) throws IOException {
         String fileContent = Files.readString(getAbsolutePath(filePath));
+
         return fileContent;
     }
 }
