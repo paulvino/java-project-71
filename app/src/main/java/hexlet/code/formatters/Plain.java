@@ -18,48 +18,26 @@ public class Plain {
 
             switch (keyStatus) {
                 case "changed":
-                    result.append("Property ")
-                            .append("'")
-                            .append(key)
-                            .append("'")
-                            .append(" was updated. From ")
-                            .append(verifiedValue1)
-                            .append(" to ")
-                            .append(verifiedValue2)
-                            .append("\n");
+                    result.append("Property '").append(key).append("' was updated. From ")
+                            .append(verifiedValue1).append(" to ").append(verifiedValue2).append("\n");
                     break;
                 case "added":
-                    result.append("Property ")
-                            .append("'")
-                            .append(key)
-                            .append("'")
-                            .append(" was added with value: ")
-                            .append(verifiedValue2)
-                            .append("\n");
+                    result.append("Property '").append(key).append("' was added with value: ")
+                            .append(verifiedValue2).append("\n");
                     break;
                 case "deleted":
-                    result.append("Property ")
-                            .append("'")
-                            .append(key)
-                            .append("'")
-                            .append(" was removed")
-                            .append("\n");
+                    result.append("Property '").append(key).append("' was removed").append("\n");
                 default:
                     break;
             }
         }
 
-        result.deleteCharAt(result.length() - 1);
-        return result.toString();
+        return result.deleteCharAt(result.length() - 1).toString();
     }
 
     public static String isValueComplex(Object value) {
         boolean isInstanceOfString = value instanceof String;
-        boolean isInstanceOfInteger = value instanceof Integer;
-        boolean isInstanceOfBoolean = value instanceof Boolean;
-
-        boolean isSimpleValue = isInstanceOfInteger || isInstanceOfBoolean;
-
+        boolean isSimpleValue = value instanceof Integer || value instanceof Boolean;
         boolean isNull = value == null;
 
         String complexityCheckResult;

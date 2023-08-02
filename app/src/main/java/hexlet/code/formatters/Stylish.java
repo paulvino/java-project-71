@@ -14,40 +14,15 @@ public class Stylish {
             Object value2 = map2.get(key);
 
             switch (keyStatus) {
-                case "unchanged":
-                    result.append("    ")
-                            .append(key)
-                            .append(": ")
-                            .append(value1)
-                            .append("\n");
-                    break;
-                case "changed":
-                    result.append("  - ")
-                            .append(key)
-                            .append(": ")
-                            .append(value1)
-                            .append("\n");
-                    result.append("  + ")
-                            .append(key).append(": ")
-                            .append(value2)
-                            .append("\n");
-                    break;
-                case "deleted":
-                    result.append("  - ")
-                            .append(key)
-                            .append(": ")
-                            .append(value1)
-                            .append("\n");
-                    break;
-                case "added":
-                    result.append("  + ")
-                            .append(key)
-                            .append(": ")
-                            .append(value2)
-                            .append("\n");
-                    break;
-                default:
-                    break;
+                case "unchanged" -> result.append("    ").append(key).append(": ").append(value1).append("\n");
+                case "changed" -> {
+                    result.append("  - ").append(key).append(": ").append(value1).append("\n");
+                    result.append("  + ").append(key).append(": ").append(value2).append("\n");
+                }
+                case "deleted" -> result.append("  - ").append(key).append(": ").append(value1).append("\n");
+                case "added" -> result.append("  + ").append(key).append(": ").append(value2).append("\n");
+                default -> {
+                }
             }
         }
 
