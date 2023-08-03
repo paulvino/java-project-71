@@ -23,10 +23,10 @@ class App implements Callable<Integer> {
     private String format;
 
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "Show this help message and exit.")
-    boolean usageHelpRequested;
+    private boolean usageHelpRequested;
 
     @Option(names = {"-V", "--version"}, versionHelp = true, description = "Print version information and exit.")
-    boolean versionInformationRequested;
+    private boolean versionInformationRequested;
 
     @Override
     public Integer call() throws Exception {
