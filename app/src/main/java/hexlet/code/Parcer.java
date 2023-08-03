@@ -22,13 +22,13 @@ public class Parcer {
         }
     }
 
-    public static Path getAbsolutePath(String filePath) {
+    private static Path getAbsolutePath(String filePath) {
         Path pathToFile = Paths.get(filePath);
 
         return pathToFile.toAbsolutePath().normalize();
     }
 
-    public static Map<String, Object> getDataJson(String filePath) throws IOException {
+    private static Map<String, Object> getDataJson(String filePath) throws IOException {
         String fileContent = parceFile(filePath);
         ObjectMapper om = new ObjectMapper();
         Map<String, Object> fileContentMap = om.readValue(fileContent, new TypeReference<>() { });
@@ -36,7 +36,7 @@ public class Parcer {
         return fileContentMap;
     }
 
-    public static Map<String, Object> getDataYaml(String filePath) throws IOException {
+    private static Map<String, Object> getDataYaml(String filePath) throws IOException {
         String fileContent = parceFile(filePath);
         ObjectMapper om = new YAMLMapper();
         Map<String, Object> fileContentMap = om.readValue(fileContent, new TypeReference<>() { });
@@ -44,7 +44,7 @@ public class Parcer {
         return fileContentMap;
     }
 
-    public static String parceFile(String filePath) throws IOException {
+    private static String parceFile(String filePath) throws IOException {
         String fileContent = Files.readString(getAbsolutePath(filePath));
 
         return fileContent;

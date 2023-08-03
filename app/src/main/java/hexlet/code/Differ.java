@@ -1,6 +1,7 @@
 package hexlet.code;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class Differ {
@@ -16,11 +17,9 @@ public class Differ {
         Map<String, Object> map1 = Parcer.parce(filePath1, file1Format);
         Map<String, Object> map2 = Parcer.parce(filePath2, file2Format);
 
-        Map<String, String> diffMap = FindDiff.getDifference(map1, map2);
+        Map<String, List<Object>> diffMap = FindDiff.getDifference(map1, map2);
 
-        String result = Formatter.constructFormat(map1, map2, diffMap, formatName);
-
-        return result;
+        return Formatter.constructFormat(diffMap, formatName);
     }
 
     private static String getFileFormat(String filePath) {

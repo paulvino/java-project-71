@@ -1,55 +1,56 @@
 package hexlet.code.formatters;
 
+import java.util.List;
 import java.util.Map;
 
 public class Plain {
-    public static String formatPlain(Map<String, Object> map1, Map<String, Object> map2,
-                                     Map<String, String> diffMap) {
+    private static final int STATUS_INDEX = 0;
+    private static final int FIRST_VALUE_INDEX = 1;
+    private static final int SECOND_VALUE_INDEX = 2;
+
+    public static String formatPlain(Map<String, List<Object>> diffMap) {
         StringBuilder result = new StringBuilder();
 
         for (String key: diffMap.keySet()) {
-            String keyStatus = diffMap.get(key);
+            List<Object> statusAndValuesList = diffMap.get(key);
 
-            Object value1 = map1.get(key);
-            String verifiedValue1 = isValueComplex(value1);
+            Object status = statusAndValuesList.get(STATUS_INDEX);
+            String value = isValueComplex(statusAndValuesList.get(FIRST_VALUE_INDEX));
 
-            Object value2 = map2.get(key);
-            String verifiedValue2 = isValueComplex(value2);
+            String valueForPaste = "";
 
-            switch (keyStatus) {
-                case "changed":
-                    result.append("Property '").append(key).append("' was updated. From ")
-                            .append(verifiedValue1).append(" to ").append(verifiedValue2).append("\n");
-                    break;
-                case "added":
-                    result.append("Property '").append(key).append("' was added with value: ")
-                            .append(verifiedValue2).append("\n");
-                    break;
-                case "deleted":
-                    result.append("Property '").append(key).append("' was removed").append("\n");
-                default:
-                    break;
+            if (status.equals("changed")) {
+                valueForPaste = getValueForChanged(statusAndValuesList);
+            } else if (status.equals("added")) {
+                valueForPaste = "' was added with value: " + value + "\n";
+            } else if (status.equals("deleted")) {
+                valueForPaste = "' was removed" + "\n";
+            } else {
+                continue;
             }
+
+            result.append("Property '").append(key).append(valueForPaste);
         }
 
         return result.deleteCharAt(result.length() - 1).toString();
     }
 
-    public static String isValueComplex(Object value) {
-        boolean isInstanceOfString = value instanceof String;
+    private static String isValueComplex(Object value) {
         boolean isSimpleValue = value instanceof Integer || value instanceof Boolean;
-        boolean isNull = value == null;
 
-        String complexityCheckResult;
-
-        if (isNull) {
-            complexityCheckResult = "null";
-        } else if (isInstanceOfString) {
-            complexityCheckResult = "'" + value + "'";
+        if (value == null) {
+            return "null";
+        } else if (value instanceof String) {
+            return "'" + value + "'";
         } else {
-            complexityCheckResult = isSimpleValue ? value.toString() : "[complex value]";
+            return isSimpleValue ? value.toString() : "[complex value]";
         }
+    }
 
-        return complexityCheckResult;
+    private static String getValueForChanged(List<Object> statusAndValuesList) {
+        String value1 = isValueComplex(statusAndValuesList.get(FIRST_VALUE_INDEX));
+        String value2 = isValueComplex(statusAndValuesList.get(SECOND_VALUE_INDEX));
+
+        return "' was updated. From " + value1 + " to " + value2 + "\n";
     }
 }

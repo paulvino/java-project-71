@@ -64,6 +64,14 @@ class DifferTest {
             + "  + verbose: true\n"
             + "}";
 
+    private static final String EXPECTED_JSON = "{\"chars1\":[\"unchanged\",[\"a\",\"b\",\"c\"]],\"chars2\":"
+            + "[\"changed\",[\"d\",\"e\",\"f\"],false],\"checked\":[\"changed\",false,true],\"default\":[\"changed\","
+            + "null,[\"value1\",\"value2\"]],\"id\":[\"changed\",45,null],\"key1\":[\"deleted\",\"value1\"],\"key2\":"
+            + "[\"added\",\"value2\"],\"numbers1\":[\"unchanged\",[1,2,3,4]],\"numbers2\":[\"changed\",[2,3,4,5],"
+            + "[22,33,44,55]],\"numbers3\":[\"deleted\",[3,4,5]],\"numbers4\":[\"added\",[4,5,6]],\"obj1\":[\"added\","
+            + "{\"nestedKey\":\"value\",\"isNested\":true}],\"setting1\":[\"changed\",\"Some value\",\"Another value\""
+            + "],\"setting2\":[\"changed\",200,300],\"setting3\":[\"changed\",true,\"none\"]}";
+
     @Test
     public void testDifferGenerateStylishJSON() throws IOException {
         String actual = Differ.generate(FILEPATH_1_JSON, FILEPATH_2_JSON);
@@ -92,6 +100,12 @@ class DifferTest {
     public void testDifferGenerateStylishSmall() throws IOException {
         String actual = Differ.generate(FILEPATH_1_SMALL_JSON, FILEPATH_2_SMALL_YAML);
         assertThat(actual).isEqualTo(EXPECTED_STYLISH_SMALL);
+    }
+
+    @Test
+    public void testDifferGenerateJson() throws IOException {
+        String actual = Differ.generate(FILEPATH_1_JSON, FILEPATH_2_JSON, "json");
+        assertThat(actual).isEqualTo(EXPECTED_JSON);
     }
 
     @Test

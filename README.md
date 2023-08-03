@@ -10,12 +10,41 @@
 Fast, small and simple CLI-application to compare content of two configurations files. 
 The result of the comparison will be displayed on the screen after the operation is completed.
 
-### Supported formats:
-- .json;
-- .yml (.yaml)
+### Supported file formats:
+  - .json;
+  - .yml (.yaml)
+
+### Supported result formats:
+  - stylish (default)
+  - plain text
+  - json
+
+### How to install:
+    git clone git@github.com:paulvino/java-project-71.git
+    cd java-project-71/app
+    make -C app build
+
+### Reference:
+    ./build/install/app/bin/app -h
+
+### Run (default result format):
+    ./build/install/app/bin/app filepath1.json filepath2.json
+
+### Run (change result format):
+    ./build/install/app/bin/app -f format filepath1.json filepath2.json
 
 ### Examples of usage (in asciinema format):
-[![asciicast](https://asciinema.org/a/pH1bPVaBhpLwDzeKZI6pdUO5s.svg)](https://asciinema.org/a/pH1bPVaBhpLwDzeKZI6pdUO5s)
+#### Help run:
+[![asciicast](https://asciinema.org/a/ZPOX6NhVSd3lsTnlAi72zMe7o.svg)](https://asciinema.org/a/ZPOX6NhVSd3lsTnlAi72zMe7o)
+
+#### Comparing two .json files:
 [![asciicast](https://asciinema.org/a/3VjYuVMxeXjZzvHBQG07Q0h8u.svg)](https://asciinema.org/a/3VjYuVMxeXjZzvHBQG07Q0h8u)
-[![asciicast](https://asciinema.org/a/1iFdzFHNqID9X86kfPfCnMuox.svg)](https://asciinema.org/a/1iFdzFHNqID9X86kfPfCnMuox)
+
+#### Comparing two .json files, plain text result:
 [![asciicast](https://asciinema.org/a/hH8mLKnEFN4j86BaWhk2MhsoN.svg)](https://asciinema.org/a/hH8mLKnEFN4j86BaWhk2MhsoN)
+
+#### Comparing two .yml files:
+[![asciicast](https://asciinema.org/a/1iFdzFHNqID9X86kfPfCnMuox.svg)](https://asciinema.org/a/1iFdzFHNqID9X86kfPfCnMuox)
+
+#### Comparing two .json files, json result:
+[![asciicast](https://asciinema.org/a/O8C9cNLVsBE6k3tpBACX4U4Xf.svg)](https://asciinema.org/a/O8C9cNLVsBE6k3tpBACX4U4Xf)
