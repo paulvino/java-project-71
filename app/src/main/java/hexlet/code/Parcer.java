@@ -12,14 +12,11 @@ import java.util.Map;
 
 public class Parcer {
     public static Map<String, Object> parce(String filePath, String fileFormat) throws IOException {
-        switch (fileFormat) {
-            case "json":
-                return getDataJson(filePath);
-            case "yml", "yaml":
-                return getDataYaml(filePath);
-            default:
-                throw new IOException("Unknown file extension! -> " + fileFormat);
-        }
+        return switch (fileFormat) {
+            case "json" -> getDataJson(filePath);
+            case "yml", "yaml" -> getDataYaml(filePath);
+            default -> throw new IOException("Unknown file extension! -> " + fileFormat);
+        };
     }
 
     private static Path getAbsolutePath(String filePath) {

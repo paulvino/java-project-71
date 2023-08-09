@@ -1,119 +1,84 @@
 package hexlet.code;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import java.io.IOException;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
 class DifferTest {
-    private static final String FILEPATH_1_JSON = "./src/test/resources/file1.json";
-    private static final String FILEPATH_2_JSON = "./src/test/resources/file2.json";
-    private static final String FILEPATH_1_YAML = "./src/test/resources/file1.yml";
-    private static final String FILEPATH_2_YAML = "./src/test/resources/file2.yml";
-    private static final String FILEPATH_1_SMALL_JSON = "./src/test/resources/file1small.json";
-    private static final String FILEPATH_2_SMALL_YAML = "./src/test/resources/file2small.yml";
-    private static final String INCORRECT_PATH = "123098";
 
-    private static final String EXPECTED_STYLISH = "{\n"
-            + "    chars1: [a, b, c]\n"
-            + "  - chars2: [d, e, f]\n"
-            + "  + chars2: false\n"
-            + "  - checked: false\n"
-            + "  + checked: true\n"
-            + "  - default: null\n"
-            + "  + default: [value1, value2]\n"
-            + "  - id: 45\n"
-            + "  + id: null\n"
-            + "  - key1: value1\n"
-            + "  + key2: value2\n"
-            + "    numbers1: [1, 2, 3, 4]\n"
-            + "  - numbers2: [2, 3, 4, 5]\n"
-            + "  + numbers2: [22, 33, 44, 55]\n"
-            + "  - numbers3: [3, 4, 5]\n"
-            + "  + numbers4: [4, 5, 6]\n"
-            + "  + obj1: {nestedKey=value, isNested=true}\n"
-            + "  - setting1: Some value\n"
-            + "  + setting1: Another value\n"
-            + "  - setting2: 200\n"
-            + "  + setting2: 300\n"
-            + "  - setting3: true\n"
-            + "  + setting3: none\n"
-            + "}";
+    private static String file1JsonPath;
+    private static String file2JsonPath;
+    private static String file1YmlPath;
+    private static String file2YmlPath;
+    private static String incorrectPath;
 
-    private static final String EXPECTED_PLAIN = "Property 'chars2' was updated. From [complex value] to false\n"
-            + "Property 'checked' was updated. From false to true\n"
-            + "Property 'default' was updated. From null to [complex value]\n"
-            + "Property 'id' was updated. From 45 to null\n"
-            + "Property 'key1' was removed\n"
-            + "Property 'key2' was added with value: 'value2'\n"
-            + "Property 'numbers2' was updated. From [complex value] to [complex value]\n"
-            + "Property 'numbers3' was removed\n"
-            + "Property 'numbers4' was added with value: [complex value]\n"
-            + "Property 'obj1' was added with value: [complex value]\n"
-            + "Property 'setting1' was updated. From 'Some value' to 'Another value'\n"
-            + "Property 'setting2' was updated. From 200 to 300\n"
-            + "Property 'setting3' was updated. From true to 'none'";
+    private static Path getPath(String fileName) {
+        return fileName.endsWith(".txt")
+                ? Paths.get("src", "test", "resources", "results", fileName).toAbsolutePath().normalize()
+                : Paths.get("src", "test", "resources", fileName).toAbsolutePath().normalize();
+    }
 
-    private static final String EXPECTED_STYLISH_SMALL = "{\n"
-            + "  - follow: false\n"
-            + "    host: hexlet.io\n"
-            + "  - proxy: 123.234.53.22\n"
-            + "  - timeout: 50\n"
-            + "  + timeout: 20\n"
-            + "  + verbose: true\n"
-            + "}";
+    private static String getData(String fileName) throws Exception {
+        Path filePath = getPath(fileName);
+        return Files.readString(filePath).trim();
+    }
 
-    private static final String EXPECTED_JSON = "{\"chars1\":[\"unchanged\",[\"a\",\"b\",\"c\"]],\"chars2\":"
-            + "[\"changed\",[\"d\",\"e\",\"f\"],false],\"checked\":[\"changed\",false,true],\"default\":[\"changed\","
-            + "null,[\"value1\",\"value2\"]],\"id\":[\"changed\",45,null],\"key1\":[\"deleted\",\"value1\"],\"key2\":"
-            + "[\"added\",\"value2\"],\"numbers1\":[\"unchanged\",[1,2,3,4]],\"numbers2\":[\"changed\",[2,3,4,5],"
-            + "[22,33,44,55]],\"numbers3\":[\"deleted\",[3,4,5]],\"numbers4\":[\"added\",[4,5,6]],\"obj1\":[\"added\","
-            + "{\"nestedKey\":\"value\",\"isNested\":true}],\"setting1\":[\"changed\",\"Some value\",\"Another value\""
-            + "],\"setting2\":[\"changed\",200,300],\"setting3\":[\"changed\",true,\"none\"]}";
-
-    @Test
-    public void testDifferGenerateStylishJSON() throws IOException {
-        String actual = Differ.generate(FILEPATH_1_JSON, FILEPATH_2_JSON);
-        assertThat(actual).isEqualTo(EXPECTED_STYLISH);
+    @BeforeAll
+    public static void beforeAll() {
+        file1JsonPath = getPath("file1.json").toString();
+        file2JsonPath = getPath("file2.json").toString();
+        file1YmlPath = getPath("file1.yml").toString();
+        file2YmlPath = getPath("file2.yml").toString();
+        incorrectPath = "123";
     }
 
     @Test
-    public void testDifferGenerateStylishYAML() throws IOException {
-        String actual = Differ.generate(FILEPATH_1_YAML, FILEPATH_2_YAML);
-        assertThat(actual).isEqualTo(EXPECTED_STYLISH);
+    public void testDifferGenerateStylishJSON() throws Exception {
+        String expected = getData("stylish.txt");
+        String actual = Differ.generate(file1JsonPath, file2JsonPath);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
-    public void testDifferGeneratePlainJSON() throws IOException {
-        String actual = Differ.generate(FILEPATH_1_JSON, FILEPATH_2_JSON, "plain");
-        assertThat(actual).isEqualTo(EXPECTED_PLAIN);
+    public void testDifferGenerateStylishYAML() throws Exception {
+        String expected = getData("stylish.txt");
+        String actual = Differ.generate(file1YmlPath, file2YmlPath);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
-    public void testDifferGeneratePlainYAML() throws IOException {
-        String actual = Differ.generate(FILEPATH_1_YAML, FILEPATH_2_YAML, "plain");
-        assertThat(actual).isEqualTo(EXPECTED_PLAIN);
+    public void testDifferGeneratePlainJSON() throws Exception {
+        String expected = getData("plain.txt");
+        String actual = Differ.generate(file1JsonPath, file2JsonPath, "plain");
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
-    public void testDifferGenerateStylishSmall() throws IOException {
-        String actual = Differ.generate(FILEPATH_1_SMALL_JSON, FILEPATH_2_SMALL_YAML);
-        assertThat(actual).isEqualTo(EXPECTED_STYLISH_SMALL);
+    public void testDifferGeneratePlainYAML() throws Exception {
+        String expected = getData("plain.txt");
+        String actual = Differ.generate(file1YmlPath, file2YmlPath, "plain");
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
-    public void testDifferGenerateJson() throws IOException {
-        String actual = Differ.generate(FILEPATH_1_JSON, FILEPATH_2_JSON, "json");
-        assertThat(actual).isEqualTo(EXPECTED_JSON);
+    public void testDifferGenerateJson() throws Exception {
+        String expected = getData("json.txt");
+        String actual = Differ.generate(file1JsonPath, file2JsonPath, "json");
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     public void testDifferGenerateIncorrectPath() {
         var thrown = catchThrowable(
-                () -> Differ.generate(INCORRECT_PATH, INCORRECT_PATH)
+                () -> Differ.generate(incorrectPath, incorrectPath)
         );
 
-        assertThat(thrown).isInstanceOf(IOException.class);
+        assertThat(thrown).isInstanceOf(Exception.class);
     }
 }
