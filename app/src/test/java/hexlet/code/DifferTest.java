@@ -43,6 +43,9 @@ class DifferTest {
         String expected = getData("stylish.txt");
         String actual = Differ.generate(file1JsonPath, file2JsonPath);
         assertThat(actual).isEqualTo(expected);
+
+        String actualStylish = Differ.generate(file1JsonPath, file2JsonPath, "stylish");
+        assertThat(actualStylish).isEqualTo(expected);
     }
 
     @Test
@@ -50,6 +53,9 @@ class DifferTest {
         String expected = getData("stylish.txt");
         String actual = Differ.generate(file1YmlPath, file2YmlPath);
         assertThat(actual).isEqualTo(expected);
+
+        String actualStylish = Differ.generate(file1YmlPath, file2YmlPath, "stylish");
+        assertThat(actualStylish).isEqualTo(expected);
     }
 
     @Test
