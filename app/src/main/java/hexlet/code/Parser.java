@@ -17,29 +17,15 @@ public class Parser {
         };
     }
 
-//    private static Path getAbsolutePath(String filePath) {
-//        Path pathToFile = Paths.get(filePath);
-//
-//        return pathToFile.toAbsolutePath().normalize();
-//    }
-
     private static Map<String, Object> getDataJson(String fileContent) throws IOException {
-//        String fileContent = parseFile(filePath);
         ObjectMapper jm = new JsonMapper();
 
         return jm.readValue(fileContent, new TypeReference<>() { });
     }
 
     private static Map<String, Object> getDataYaml(String fileContent) throws IOException {
-//        String fileContent = parseFile(filePath);
         ObjectMapper ym = new YAMLMapper();
 
         return ym.readValue(fileContent, new TypeReference<>() { });
     }
-
-//    private static String parseFile(String filePath) throws IOException {
-//        String fileContent = Files.readString(getAbsolutePath(filePath));
-//
-//        return fileContent;
-//    }
 }
