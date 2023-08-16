@@ -20,10 +20,10 @@ public class Differ {
         String file1Content = getContent(filePath1);
         String file2Content = getContent(filePath2);
 
-        Map<String, Object> map1 = Parser.parse(file1Content, file1Format);
-        Map<String, Object> map2 = Parser.parse(file2Content, file2Format);
+        Map<String, Object> parsedFile1 = Parser.parse(file1Content, file1Format);
+        Map<String, Object> parsedFile2 = Parser.parse(file2Content, file2Format);
 
-        Map<String, List<Object>> diffMap = FindDiff.getDifference(map1, map2);
+        Map<String, List<Object>> diffMap = FindDiff.getDifference(parsedFile1, parsedFile2);
 
         return Formatter.constructFormat(diffMap, formatName);
     }

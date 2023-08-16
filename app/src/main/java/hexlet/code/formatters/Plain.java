@@ -15,7 +15,7 @@ public class Plain {
             List<Object> statusAndValuesList = diffMap.get(key);
 
             Object status = statusAndValuesList.get(STATUS_INDEX);
-            String value = isValueComplex(statusAndValuesList.get(FIRST_VALUE_INDEX));
+            String value = stringify(statusAndValuesList.get(FIRST_VALUE_INDEX));
 
             String valueForPaste = "";
 
@@ -35,7 +35,7 @@ public class Plain {
         return result.deleteCharAt(result.length() - 1).toString();
     }
 
-    private static String isValueComplex(Object value) {
+    private static String stringify(Object value) {
         boolean isSimpleValue = value instanceof Integer || value instanceof Boolean;
 
         if (value == null) {
@@ -48,8 +48,8 @@ public class Plain {
     }
 
     private static String getValueForChanged(List<Object> statusAndValuesList) {
-        String value1 = isValueComplex(statusAndValuesList.get(FIRST_VALUE_INDEX));
-        String value2 = isValueComplex(statusAndValuesList.get(SECOND_VALUE_INDEX));
+        String value1 = stringify(statusAndValuesList.get(FIRST_VALUE_INDEX));
+        String value2 = stringify(statusAndValuesList.get(SECOND_VALUE_INDEX));
 
         return "' was updated. From " + value1 + " to " + value2 + "\n";
     }
