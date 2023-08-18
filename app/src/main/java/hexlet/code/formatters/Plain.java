@@ -4,32 +4,29 @@ import java.util.List;
 import java.util.Map;
 
 public class Plain {
-    private static final int STATUS_INDEX = 0;
-    private static final int FIRST_VALUE_INDEX = 1;
-    private static final int SECOND_VALUE_INDEX = 2;
 
-    public static String formatPlain(Map<String, List<Object>> diffMap) {
+    public static String formatPlain(List<Map<String, Object>> diffList) {
         StringBuilder result = new StringBuilder();
 
-        for (String key: diffMap.keySet()) {
-            List<Object> statusAndValuesList = diffMap.get(key);
+        for (Map<String, Object> el: diffList) {
 
-            Object status = statusAndValuesList.get(STATUS_INDEX);
-            String value = stringify(statusAndValuesList.get(FIRST_VALUE_INDEX));
+            Object status = el.get("status");
+            Object value1 = stringify(el.get("value1"));
 
-            String valueForPaste = "";
+            String resultString = "";
 
             if (status.equals("changed")) {
-                valueForPaste = getValueForChanged(statusAndValuesList);
+                resultString = "' was updated. From " + value1 + " to " + stringify(el.get("value2")) + "\n";
             } else if (status.equals("added")) {
-                valueForPaste = "' was added with value: " + value + "\n";
+                resultString = "' was added with value: " + value1 + "\n";
             } else if (status.equals("deleted")) {
-                valueForPaste = "' was removed" + "\n";
+                resultString = "' was removed" + "\n";
             } else {
                 continue;
             }
 
-            result.append("Property '").append(key).append(valueForPaste);
+            Object name = el.get("name");
+            result.append("Property '").append(name).append(resultString);
         }
 
         return result.deleteCharAt(result.length() - 1).toString();
@@ -45,12 +42,5 @@ public class Plain {
         } else {
             return isSimpleValue ? value.toString() : "[complex value]";
         }
-    }
-
-    private static String getValueForChanged(List<Object> statusAndValuesList) {
-        String value1 = stringify(statusAndValuesList.get(FIRST_VALUE_INDEX));
-        String value2 = stringify(statusAndValuesList.get(SECOND_VALUE_INDEX));
-
-        return "' was updated. From " + value1 + " to " + value2 + "\n";
     }
 }

@@ -23,9 +23,9 @@ public class Differ {
         Map<String, Object> parsedFile1 = Parser.parse(file1Content, file1Format);
         Map<String, Object> parsedFile2 = Parser.parse(file2Content, file2Format);
 
-        Map<String, List<Object>> diffMap = FindDiff.getDifference(parsedFile1, parsedFile2);
+        List<Map<String, Object>> diffList = FindDiff.getDiff(parsedFile1, parsedFile2);
 
-        return Formatter.constructFormat(diffMap, formatName);
+        return Formatter.constructFormatFromMap(diffList, formatName);
     }
 
     private static String getFileFormat(String filePath) {

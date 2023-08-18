@@ -25,15 +25,21 @@ The result of the comparison will be displayed on the screen after the operation
     make -C app build
 
 ### Reference:
-    ./build/install/app/bin/app -h
+    make help
+
+### Version:
+    make version
 
 ### Run (default result format):
-    ./build/install/app/bin/app filepath1.json filepath2.json
+    make compare-json
 
 ### Run (change result format):
-    ./build/install/app/bin/app -f format filepath1.json filepath2.json
+    make compare-f-format
 
 ### Examples of usage (in asciinema format):
+#### Final demo:
+[![asciicast](https://asciinema.org/a/631qCkOzFO6oJZzJtE2ENYEq4.svg)](https://asciinema.org/a/631qCkOzFO6oJZzJtE2ENYEq4)
+
 #### Help run:
 [![asciicast](https://asciinema.org/a/ZPOX6NhVSd3lsTnlAi72zMe7o.svg)](https://asciinema.org/a/ZPOX6NhVSd3lsTnlAi72zMe7o)
 
